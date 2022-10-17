@@ -28,3 +28,26 @@ rows = run_query(f'SELECT * FROM "{sheet_url}"')
 for row in rows:
 #     st.write(f"{row.supervisor} has access to :{row.department}:")
     st.write(row)
+
+    
+# crud - alternative way of doing this: https://shritam.medium.com/google-sheets-a-database-c4e3fef6e0bc
+# import gspread
+# from oauth2client.service_account import ServiceAccountCredentials
+# from pprint import pprint
+
+# # scope of the application
+# scope = ["https://spreadsheets.google.com/feeds", 'https://www.googleapis.com/auth/spreadsheets',
+#          "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
+
+# credentials = ServiceAccountCredentials.from_json_keyfile_name(
+#     "/home/shritam/Google_sheet_project/Cred.json", scope)
+
+# client = gspread.authorize(credentials)
+
+
+# # Open the spreadhseet
+# sheet = client.open("Zalando Data").worksheet("zalando_data")
+
+# # Get a list of all records
+# data = sheet.get_all_records()
+# pprint(data)
