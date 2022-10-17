@@ -1,0 +1,9 @@
+# requirements.txt
+
+pandas
+pyodbc
+streamlit
+streamlit-aggrid
+datetime
+plotly
+gsheetsdb
