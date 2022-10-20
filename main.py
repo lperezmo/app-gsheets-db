@@ -7,6 +7,7 @@ from gsheetsdb import connect
 import gspread
 import pandas as pd
 from st_aggrid import AgGrid
+st.set_page_config(page_title='Privilege Assigner App by LPM', page_icon='https://raw.githubusercontent.com/pyinstaller/pyinstaller/develop/PyInstaller/bootloader/images/icon-windowed.ico', layout="wide")
 ##################################################################################################################
 # LOGIN INFO
 def check_password():
