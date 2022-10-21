@@ -64,7 +64,12 @@ if check_password():
         current_supervisors = []
         _current_supervisors = sheet.worksheets()
         for i in _current_supervisors:
-            current_supervisors.append(str(i.title))
+            # Ignore unassigned column, which will hold unassigned
+            # employees that need to be assigned one by one
+            if str(i.title) == 'Unassigned':
+                pass
+            else:
+                current_supervisors.append(str(i.title))
 
         holder = dict()
         for n in current_supervisors:
