@@ -228,27 +228,25 @@ if check_password():
     # Manage current supervisors (select one at a time)
     st.subheader('Manage existing supervisors:')
     with st.expander("Click here"):
+        # Select supervisor and get its list of access
         sup =  st.selectbox('Choose supervisor to manage', options=current_supervisors)
-        # Option for adding department
-        with st.expander('Click here to add a new department to this supervisor'):
-            dept_to_add = st.selectbox('Choose department to be added', options=departments)
-            if st.button('Add department'):
-                add_deparment_to_supervisor(dept_to_add)
-
-        
-        # Remove privileges
-        with st.expander("Click here to remove a department from this supervisor"):
-            dept_to_remove = st.selectbox('Choose department to remove:', options=list_of_access)
-            if st.button('Delete department'):
-                remove_department_from_supervisor(dept_to_remove)
-
-        # Option for removing supervisor
         try:
             list_of_access = list(holder.get(sup).iloc[0])
         except:
             list_of_access = []
-        with st.expander("Click here to remove a supervisor"):
-            if st.button('Delete supervisor'):
+        
+        # Option for adding department
+        dept_to_add = st.selectbox('Add a new department to this supervisor', options=departments)
+        if st.button('Add department'):
+            add_deparment_to_supervisor(dept_to_add)
+
+        # Remove privileges
+        dept_to_remove = st.selectbox('Remove a department from this supervisor', options=list_of_access)
+        if st.button('Delete department'):
+            remove_department_from_supervisor(dept_to_remove)
+
+        # Option for removing supervisor
+        if st.button('Delete this supervisor'):
                 delete_supervisor(sup)
 
     # New supervisors
