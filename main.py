@@ -210,7 +210,7 @@ if check_password():
     # Title
     st.header('Privilege assigning program by LPM')
     
-    with st.expander("To see current privileges click here")
+    with st.expander("To see current privileges click here"):
         # Get current assigned access to show
         current_supervisors, holder = get_assigned_access()
         current_supervisors = sorted(current_supervisors)
@@ -222,8 +222,8 @@ if check_password():
             except:
                 pass
 
-        # Get list of departments from secrets
-        departments = st.secrets['departments']
+    # Get list of departments from secrets
+    departments = st.secrets['departments']
 
     # Manage current supervisors (select one at a time)
     st.subheader('Manage existing supervisors:')
@@ -240,7 +240,6 @@ if check_password():
         list_of_access = list(holder.get(sup).iloc[0])
     except:
         list_of_access = []
-#     st.experimental_show(holder)
     with st.expander("Click here to remove a supervisor"):
         if st.button('Delete supervisor'):
             delete_supervisor(sup)
