@@ -71,10 +71,6 @@ if check_password():
             _ = pd.DataFrame(sheet.worksheet(n).col_values(1))
             holder[n] = _
 
-        # Clear memory for reloading data
-        access_to_by_supervisor.clear()
-        get_assigned_access.clear()
-
         return current_supervisors, holder
 
     @st.experimental_memo
@@ -239,15 +235,22 @@ if check_password():
         dept_to_add = st.selectbox('Add a new department to this supervisor', options=departments)
         if st.button('Add department'):
             add_deparment_to_supervisor(sup, dept_to_add)
+            current_supervisors, holder = get_assigned_access()
+            current_supervisors = sorted(current_supervisors)
 
         # Remove privileges
         dept_to_remove = st.selectbox('Remove a department from this supervisor', options=list_of_access)
         if st.button('Delete department'):
             remove_department_from_supervisor(sup, dept_to_remove)
+            current_supervisors, holder = get_assigned_access()
+            current_supervisors = sorted(current_supervisors)
 
         # Option for removing supervisor
         if st.button('Delete this supervisor'):
-                delete_supervisor(sup)
+            delete_supervisor(sup)
+            current_supervisors, holder = get_assigned_access()
+            current_supervisors = sorted(current_supervisors)
+                
 
     # New supervisors
     st.subheader("Add a new supervisor")
@@ -255,3 +258,5 @@ if check_password():
         new_sup = st.text_input('Input name of new supervisor')
         if st.button('Add new supervisor'):
             create_supervisor(new_sup)
+            current_supervisors, holder = get_assigned_access()
+            current_supervisors = sorted(current_supervisors)
