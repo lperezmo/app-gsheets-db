@@ -95,8 +95,8 @@ if check_password():
         sheet.add_worksheet(title=new_sup, rows=20, cols=1)
 
         # Clear memory for reloading data
-        access_to_by_supervisor.clear()
-        get_assigned_access.clear()
+        # access_to_by_supervisor.clear()
+        # get_assigned_access.clear()
 
     @st.experimental_memo
     def delete_supervisor(sup_name):
@@ -121,8 +121,8 @@ if check_password():
         st.success(f"Successfully deleted {sup_name}")
 
         # Clear memory for reloading data
-        access_to_by_supervisor.clear()
-        get_assigned_access.clear()
+        # access_to_by_supervisor.clear()
+        # get_assigned_access.clear()
 
     @st.experimental_memo
     def add_deparment_to_supervisor(sup_name, department_to_add):
@@ -149,8 +149,8 @@ if check_password():
             st.success(f"Deparment {department_to_add} has been assigned to {sup_name}")
 
         # Clear memory for reloading data
-        access_to_by_supervisor.clear()
-        get_assigned_access.clear()
+        # access_to_by_supervisor.clear()
+        # get_assigned_access.clear()
 
     @st.experimental_memo
     def remove_department_from_supervisor(sup_name, dept_to_remove):
@@ -175,30 +175,8 @@ if check_password():
         st.success(f"Department {dept_to_remove} removed from {sup}'s privileges")
 
         # Clear memory for reloading data
-        access_to_by_supervisor.clear()
-        get_assigned_access.clear()
-
-    @st.experimental_memo
-    def access_to_by_supervisor(sup_name):
-        # Create a connection object.
-        credentials = service_account.Credentials.from_service_account_info(
-            st.secrets["gcp_service_account"],
-            scopes=[
-                    "https://spreadsheets.google.com/feeds", 
-                    "https://www.googleapis.com/auth/spreadsheets",
-                    "https://www.googleapis.com/auth/drive.file", 
-                    "https://www.googleapis.com/auth/drive"
-                    ],
-        )
-        # conn = connect(credentials=credentials)
-        client = gspread.authorize(credentials)
-
-        # Get worksheet
-        sheet = client.open('private-spreadsheet')
-        worksheet = sheet.worksheet(sup_name)
-        list_of_access = worksheet.col_values(1)
-
-        return list_of_access
+        # access_to_by_supervisor.clear()
+        # get_assigned_access.clear()
 
     ##################################################################################################################
     # MAIN PROGRAM
@@ -221,6 +199,11 @@ if check_password():
                 st.markdown(f"* {i} has access to {tablita}")
             except:
                 pass
+                 if st.button("Refresh all data & reload app"):
+        get_assigned_access.clear()
+        st.experimental_rerun()
+        st.success("App and data reloaded")
+        st.snow()
 
     # Manage current supervisors (select one at a time)
     st.subheader('Manage existing supervisors:')
