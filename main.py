@@ -41,34 +41,6 @@ def check_password():
 if check_password():
     # HELPER FUNCTIONS
     @st.experimental_memo
-    def initialize():
-        # Create a connection object.
-        credentials = service_account.Credentials.from_service_account_info(
-            st.secrets["gcp_service_account"],
-            scopes=[
-                    "https://spreadsheets.google.com/feeds", 
-                    "https://www.googleapis.com/auth/spreadsheets",
-                    "https://www.googleapis.com/auth/drive.file", 
-                    "https://www.googleapis.com/auth/drive"
-                    ],
-        )
-        # Get sheet
-        client = gspread.authorize(credentials)
-        sheet = client.open('private-spreadsheet')
-
-        # Get current supervisors
-        current_supervisors = []
-        _current_supervisors = sheet.worksheets()
-        for i in _current_supervisors:
-            current_supervisors.append(str(i.title))
-
-        # Get accesses for each supervisor
-        holder = dict()
-        for n in current_supervisors:
-            _ = pd.DataFrame(sheet.worksheet(n).col_values(1))
-            holder[n] = _
-
-    @st.experimental_memo
     def get_assigned_access():
         # Create a connection object.
         credentials = service_account.Credentials.from_service_account_info(
@@ -237,9 +209,6 @@ if check_password():
 
     # Title
     st.header('Privilege assigning program by LPM')
-
-    # Initialize
-    initialize()
 
     # Get current assigned access to show
     current_supervisors, holder = get_assigned_access()
