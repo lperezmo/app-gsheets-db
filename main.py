@@ -211,7 +211,7 @@ if check_password():
     st.header('Privilege assigning program by LPM')
     
     # Get list of departments from secrets
-    departments = st.secrets['departments']
+    departments = sorted(st.secrets['departments'])
     
     st.subheader("Current privileges")
     with st.expander("Click here"):
@@ -231,7 +231,7 @@ if check_password():
         # Select supervisor and get its list of access
         sup =  st.selectbox('Choose supervisor to manage', options=current_supervisors)
         try:
-            list_of_access = list(holder.get(sup).iloc[0])
+            list_of_access = sorted(list(holder.get(sup).iloc[0]))
         except:
             list_of_access = []
         
