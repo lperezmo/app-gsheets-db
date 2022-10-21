@@ -199,11 +199,11 @@ if check_password():
                 st.markdown(f"* {i} has access to {tablita}")
             except:
                 pass
-                 if st.button("Refresh all data & reload app"):
-        get_assigned_access.clear()
-        st.experimental_rerun()
-        st.success("App and data reloaded")
-        st.snow()
+        if st.button("Refresh all data & reload app"):
+            get_assigned_access.clear()
+            st.experimental_rerun()
+            st.success("App and data reloaded")
+            st.snow()
 
     # Manage current supervisors (select one at a time)
     st.subheader('Manage existing supervisors:')
