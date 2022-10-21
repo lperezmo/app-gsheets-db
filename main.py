@@ -238,12 +238,12 @@ if check_password():
         # Option for adding department
         dept_to_add = st.selectbox('Add a new department to this supervisor', options=departments)
         if st.button('Add department'):
-            add_deparment_to_supervisor(dept_to_add)
+            add_deparment_to_supervisor(sup, dept_to_add)
 
         # Remove privileges
         dept_to_remove = st.selectbox('Remove a department from this supervisor', options=list_of_access)
         if st.button('Delete department'):
-            remove_department_from_supervisor(dept_to_remove)
+            remove_department_from_supervisor(sup, dept_to_remove)
 
         # Option for removing supervisor
         if st.button('Delete this supervisor'):
