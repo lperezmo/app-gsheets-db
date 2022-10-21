@@ -40,7 +40,7 @@ def check_password():
 ##################################################################################################################
 if check_password():
     # HELPER FUNCTIONS
-    @st.experimental_memo
+    @st.experimental_memo(ttl=200)
     def get_assigned_access():
         # Create a connection object.
         credentials = service_account.Credentials.from_service_account_info(
@@ -209,11 +209,12 @@ if check_password():
     # Get list of departments from secrets
     departments = sorted(st.secrets['departments'])
     
+    # Get current assigned access to show
+    current_supervisors, holder = get_assigned_access()
+    current_supervisors = sorted(current_supervisors)
+    
     st.subheader("Current privileges")
     with st.expander("Click here"):
-        # Get current assigned access to show
-        current_supervisors, holder = get_assigned_access()
-        current_supervisors = sorted(current_supervisors)
         for i in holder.keys():
             try:
                 tablita = list(holder.get(i).iloc[0])
