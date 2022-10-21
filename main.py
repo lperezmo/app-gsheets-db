@@ -235,7 +235,8 @@ if check_password():
 
     # Option for removing supervisor
     sup =  st.selectbox('Choose supervisor', options=current_supervisors)
-    list_of_access = access_to_by_supervisor()
+#     list_of_access = access_to_by_supervisor()
+    list_of_access = list(holder.get(sup).iloc[0])
     with st.expander("Click here to remove a supervisor"):
         if st.button('Delete supervisor'):
             delete_supervisor(sup)
