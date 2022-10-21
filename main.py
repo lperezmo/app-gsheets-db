@@ -64,10 +64,8 @@ if check_password():
         current_supervisors = []
         _current_supervisors = sheet.worksheets()
         for i in _current_supervisors:
-            # Ignore unassigned column, which will hold unassigned
-            # employees that need to be assigned one by one
             if str(i.title) == 'Unassigned':
-                pass
+                unassigned = sheet.worksheet('Unassigned').col_values(1)
             else:
                 current_supervisors.append(str(i.title))
 
@@ -76,7 +74,7 @@ if check_password():
             _ = pd.DataFrame(sheet.worksheet(n).col_values(1))
             holder[n] = _
 
-        return current_supervisors, holder
+        return current_supervisors, holder, unassigned
 
     @st.experimental_memo
     def create_supervisor(new_sup):
@@ -147,7 +145,7 @@ if check_password():
         worksheet = sheet.worksheet(sup_name)
 
         # Add deparment
-        if department_to_add in list(worksheet.col_values(1)):
+        if department_to_add in list(worksheet.col_values(1)[0:49]):
             st.warning("Deparment has already been assigned")
         else:
             worksheet.insert_row([department_to_add], 1)
@@ -179,10 +177,55 @@ if check_password():
         worksheet.delete_row(cell.row)
         st.success(f"Department {dept_to_remove} removed from {sup}'s privileges")
 
-        # Clear memory for reloading data
-        # access_to_by_supervisor.clear()
-        # get_assigned_access.clear()
+        
+    @st.experimental_memo
+    def add_unassigned(sup_name, person_to_add):
+        # Create a connection object.
+        credentials = service_account.Credentials.from_service_account_info(
+            st.secrets["gcp_service_account"],
+            scopes=[
+                    "https://spreadsheets.google.com/feeds", 
+                    "https://www.googleapis.com/auth/spreadsheets",
+                    "https://www.googleapis.com/auth/drive.file", 
+                    "https://www.googleapis.com/auth/drive"
+                    ],
+        )
+        # Get sheet
+        client = gspread.authorize(credentials)
+        sheet = client.open('private-spreadsheet')
+        worksheet = sheet.worksheet(sup_name)
 
+        # Add person to add
+        # NOTE: EVERYTHING PAST ROW 50 IS UNASSIGNED PEOPLE
+        if person_to_add in list(worksheet.col_values(1)[50:]):
+            st.warning("Deparment has already been assigned")
+        else:
+            worksheet.insert_row([person_to_add], 50)
+            st.success(f"Deparment {person_to_add} has been assigned to {sup_name}")
+        
+    
+    @st.experimental_memo
+    def remove_unassigned(sup_name, person_to_remove):
+        # Create a connection object.
+        credentials = service_account.Credentials.from_service_account_info(
+            st.secrets["gcp_service_account"],
+            scopes=[
+                    "https://spreadsheets.google.com/feeds", 
+                    "https://www.googleapis.com/auth/spreadsheets",
+                    "https://www.googleapis.com/auth/drive.file", 
+                    "https://www.googleapis.com/auth/drive"
+                    ],
+        )
+        # Get sheet
+        client = gspread.authorize(credentials)
+        sheet = client.open('private-spreadsheet')
+        worksheet = sheet.worksheet(sup_name)
+
+        # Delete department to remove
+        cell = worksheet.find(person_to_remove)
+        worksheet.delete_row(cell.row)
+        st.success(f"Department {person_to_remove} removed from {sup}'s privileges")
+        
     ##################################################################################################################
     # MAIN PROGRAM
 
@@ -193,7 +236,7 @@ if check_password():
     departments = sorted(st.secrets['departments'])
     
     # Get current assigned access to show
-    current_supervisors, holder = get_assigned_access()
+    current_supervisors, holder, unassigned = get_assigned_access()
     current_supervisors = sorted(current_supervisors)
     
     st.subheader("Current privileges")
@@ -216,9 +259,14 @@ if check_password():
         # Select supervisor and get its list of access
         sup =  st.selectbox('Choose supervisor to manage', options=current_supervisors)
         try:
-            list_of_access = sorted(list(holder.get(sup).iloc[0]))
+            list_of_access = sorted(list(holder.get(sup).iloc[0:50]))
         except:
             list_of_access = []
+            
+        try:
+            list_of_una = sorted(list(holder.get(sup).iloc[50:]))
+        except:
+            list_of_una = []
         
         # Option for adding department
         dept_to_add = st.selectbox('Add a new department to this supervisor', options=departments)
@@ -230,6 +278,16 @@ if check_password():
         if st.button('Delete department'):
             remove_department_from_supervisor(sup, dept_to_remove)
 
+        # Add unassigned person
+        person_to_add = st.selectbox('Add a new unassigned employee to this supervisor', options=unassigned)
+        if st.button('Add unassigned employee'):
+            add_unassigned(sup, person_to_add)
+            
+         # Remove unassigned person
+        person_to_remove = st.selectbox('Remove an unassigned employee from this supervisor', options=list_of_una)
+        if st.button('Delete unassigned employee'):
+            remove_unassigned(sup, person_to_remove)
+            
         # Option for removing supervisor
         if st.button('Delete this supervisor'):
             delete_supervisor(sup)
