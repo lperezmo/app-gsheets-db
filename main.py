@@ -195,7 +195,7 @@ if check_password():
     with st.expander("Click here"):
         for i in holder.keys():
             try:
-                tablita = list(holder.get(i))
+                tablita = list(holder.get(i).iloc[:,0])
                 st.markdown(f"* {i} has access to {tablita}")
             except:
                 pass
