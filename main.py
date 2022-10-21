@@ -252,9 +252,6 @@ if check_password():
     # New supervisors
     st.subheader("Add a new supervisor")
     with st.expander("Click here"):
-        # Option for adding supervisor
-        st.subheader('Add new supervisor.')
-        with st.expander("Click here to add a new supervisor"):
-            new_sup = st.text_input('Name')
-            if st.button('Add'):
-                create_supervisor(new_sup)
+        new_sup = st.text_input('Input name of new supervisor')
+        if st.button('Add new supervisor'):
+            create_supervisor(new_sup)
