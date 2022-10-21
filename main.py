@@ -259,12 +259,12 @@ if check_password():
         # Select supervisor and get its list of access
         sup =  st.selectbox('Choose supervisor to manage', options=current_supervisors)
         try:
-            list_of_access = sorted(list(holder.get(sup).iloc[0:50]))
+            list_of_access = sorted(list(holder.get(sup).iloc[:,0:50]))
         except:
             list_of_access = []
             
         try:
-            list_of_una = sorted(list(holder.get(sup).iloc[50:]))
+            list_of_una = sorted(list(holder.get(sup).iloc[:,50:]))
         except:
             list_of_una = []
         
