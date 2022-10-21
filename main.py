@@ -96,6 +96,52 @@ if check_password():
     # Title
     st.header('Privilege assigning program by LPM')
 
+    @st.experimental_memo
+    def get_assigned_access():
+        # Create a connection object.
+        credentials = service_account.Credentials.from_service_account_info(
+            st.secrets["gcp_service_account"],
+            scopes=[
+                    "https://spreadsheets.google.com/feeds", 
+                    "https://www.googleapis.com/auth/spreadsheets",
+                    "https://www.googleapis.com/auth/drive.file", 
+                    "https://www.googleapis.com/auth/drive"
+                    ],
+        )
+        # conn = connect(credentials=credentials)
+        client = gspread.authorize(credentials)
+
+        # # @st.experimental_memo(ttl=600)
+        # def run_pseudo_query():
+        #     sheet = client.open('private-spreadsheet')
+        #     return sheet
+
+        sheet = client.open('private-spreadsheet')
+        current_supervisors = []
+        _current_supervisors = sheet.worksheets()
+        for i in _current_supervisors:
+            current_supervisors.append(str(i.title))
+
+        holder = dict()
+        for n in current_supervisors:
+            _ = pd.DataFrame(sheet.worksheet(n).col_values(1))
+            holder[n] = _
+
+        return current_supervisors, holder
+
+    current_supervisors, holder = get_assigned_access()
+
+    # st.table(current_supervisors)
+    st.subheader("Current privileges")
+    for i in holder.keys():
+        try:
+            tablita = list(holder.get(i).iloc[0])
+            # st.write(i)
+            # st.dataframe(tablita)
+            # for item in tablita:
+            st.markdown(f"* {i} has access to {tablita}")
+        except:
+            pass
     # Get data
     sheet = get_sheet("private-spreadsheet")
 
@@ -173,19 +219,19 @@ if check_password():
 
     ##################################################################################################################
     # SHOW CURRENT PRIVILEGES IN TWO COLUMNS
-    # Show data
-    st.subheader("Currently assigned privileges:")
-    holder = get_stored_data(shit_supervisors)
-    col1, col2 = st.columns(2)
-    for count, i in enumerate(holder.keys()):
-        if count %2 == 0:
-            with col1: 
-                st.write(i)
-                st.dataframe(holder.get(i), use_container_width=True)
-        else:
-            with col2:
-                st.write(i)
-                st.dataframe(holder.get(i), use_container_width=True)
+#     # Show data
+#     st.subheader("Currently assigned privileges:")
+#     holder = get_stored_data(shit_supervisors)
+#     col1, col2 = st.columns(2)
+#     for count, i in enumerate(holder.keys()):
+#         if count %2 == 0:
+#             with col1: 
+#                 st.write(i)
+#                 st.dataframe(holder.get(i), use_container_width=True)
+#         else:
+#             with col2:
+#                 st.write(i)
+#                 st.dataframe(holder.get(i), use_container_width=True)
 
 
 
