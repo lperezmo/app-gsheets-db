@@ -40,13 +40,7 @@ def check_password():
 ##################################################################################################################
 if check_password():
     # IMPORTANT FUNCTIONS
-    # Get name of existing supervisors and departments
-    @st.experimental_memo
-    def get_departments():
-        """"Here you would do SQL to get list of existing depts"""
-        departments = ['ALL','PAINT','STEEL TANK','SHED3']
-        return departments
-
+    
     # @st.experimental_memo
     def get_connection_object():
         """
@@ -96,7 +90,7 @@ if check_password():
         return holder
 
     shit_supervisors = []
-    shit_departments = get_departments()
+    shit_departments = st.secrets['departments']
     ##################################################################################################################
     # DATA AND WIDGETS
     # Title
