@@ -227,7 +227,7 @@ if check_password():
 
     # Manage current supervisors (select one at a time)
     st.subheader('Manage existing supervisors:')
-    with st.expander("Click here'):
+    with st.expander("Click here"):
         sup =  st.selectbox('Choose supervisor to manage', options=current_supervisors)
         # Option for adding department
         with st.expander('Click here to add a new department to this supervisor'):
