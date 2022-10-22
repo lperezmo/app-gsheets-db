@@ -1,6 +1,6 @@
 # app-gsheets-db
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://lperezmo-app-gsheets-db-main-r6rsge.streamlitapp.com/)
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://hess-privileges.streamlitapp.com/)
 ![GitHub](https://img.shields.io/github/license/lperezmo/app-gsheets-db)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/lperezmo/app-gsheets-db)
 ![GitHub repo size](https://img.shields.io/github/repo-size/lperezmo/app-gsheets-db)
