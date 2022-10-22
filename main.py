@@ -263,12 +263,12 @@ if check_password():
             
             # Option to list all access at once
             if st.button('Just list all data at once in a list'):
-            for i in holder.keys():
-                try:
-                    tablita = list(holder.get(i).iloc[:,0])
-                    st.markdown(f"* {i} has access to {tablita}")
-                except:
-                    pass
+                for i in holder.keys():
+                    try:
+                        tablita = list(holder.get(i).iloc[:,0])
+                        st.markdown(f"* {i} has access to {tablita}")
+                    except:
+                        pass
             # Optional button to reload app & re-run app
             if st.button("Refresh all data & reload app"):
                 get_assigned_access.clear()
