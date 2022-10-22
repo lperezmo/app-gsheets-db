@@ -277,12 +277,16 @@ if check_password():
         # Select supervisor and get its list of access
         sup =  st.selectbox('Choose supervisor to manage', options=current_supervisors)
         try:
-            list_of_access = sorted(list(holder.get(sup).iloc[:,0:50]))
+            # Improved list of access based on "tablita" above
+            list_of_access = list(holder.get(sup)[0][:49])
+            list_of_access = sorted(list(filter(None, list_of_access)))
         except:
             list_of_access = []
             
         try:
-            list_of_una = sorted(list(holder.get(sup).iloc[:,50:]))
+            # List of unassigned
+            # Based on "tablita_people" above
+            list_of_una = sorted(list(holder.get(selection)[0][49:]))
         except:
             list_of_una = []
         
