@@ -255,6 +255,7 @@ if check_password():
                 # Assigned people
                 st.write("Assigned people:")
                 tablita_people = list(holder.get(selection)[0][49:])
+                tablita_people = list(filter(None, tablita_people))
                 st.table(tablita_people)
             except:
                 st.warning('No departments or people assigned to this supervisor.')
@@ -286,7 +287,10 @@ if check_password():
         try:
             # List of unassigned
             # Based on "tablita_people" above
+            # Important to remove 'None' because when inserting new departments
+            # the values of employees will move down the spreadsheet
             list_of_una = sorted(list(holder.get(selection)[0][49:]))
+            list_of_una = list(filter(None, list_of_una))
         except:
             list_of_una = []
         
