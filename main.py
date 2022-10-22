@@ -296,25 +296,25 @@ if check_password():
         
         # Option for adding department
         st.markdown("## 1. Add a new department to this supervisor")
-        dept_to_add = st.selectbox('Add a new department to this supervisor', options=departments, label_visibility="collapsed"))
+        dept_to_add = st.selectbox('Add a new department to this supervisor', options=departments, label_visibility="collapsed")
         if st.button('Add department'):
             add_deparment_to_supervisor(sup, dept_to_add)
 
         # Remove privileges
         st.markdown("## 2. Remove a department from this supervisor")
-        dept_to_remove = st.selectbox('Remove a department from this supervisor', options=list_of_access, label_visibility="collapsed"))
+        dept_to_remove = st.selectbox('Remove a department from this supervisor', options=list_of_access, label_visibility="collapsed")
         if st.button('Delete department'):
             remove_department_from_supervisor(sup, dept_to_remove)
 
         # Add unassigned person
         st.markdown("## 3. Add a new unassigned employee to this supervisor")
-        person_to_add = st.selectbox('Add a new unassigned employee to this supervisor', options=unassigned, label_visibility="collapsed"))
+        person_to_add = st.selectbox('Add a new unassigned employee to this supervisor', options=unassigned, label_visibility="collapsed")
         if st.button('Add unassigned employee'):
             add_unassigned(sup, person_to_add)
             
          # Remove unassigned person
         st.markdown("## 4. Remove an unassigned employee from this supervisor")
-        person_to_remove = st.selectbox('Remove an unassigned employee from this supervisor', options=list_of_una, label_visibility="collapsed"))
+        person_to_remove = st.selectbox('Remove an unassigned employee from this supervisor', options=list_of_una, label_visibility="collapsed")
         if st.button('Delete unassigned employee'):
             remove_unassigned(sup, person_to_remove)
             
