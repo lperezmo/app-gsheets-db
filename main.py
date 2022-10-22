@@ -246,7 +246,7 @@ if check_password():
             try:
                 # Assigned departments
                 st.write('Assigned departments:')
-                tablita = list(holder.get(selection)[0][:49])
+                tablita = list(holder.get(selection)[0][:40])
                 tablita = list(filter(None, tablita))
                 st.table(tablita)
                 # Filter empty stuff on departments
@@ -254,7 +254,7 @@ if check_password():
 
                 # Assigned people
                 st.write("Assigned people:")
-                tablita_people = list(holder.get(selection)[0][49:])
+                tablita_people = list(holder.get(selection)[0][40:])
                 tablita_people = list(filter(None, tablita_people))
                 st.table(tablita_people)
             except:
@@ -295,22 +295,26 @@ if check_password():
             list_of_una = []
         
         # Option for adding department
-        dept_to_add = st.selectbox('Add a new department to this supervisor', options=departments)
+        st.markdown("## 1. Add a new department to this supervisor')
+        dept_to_add = st.selectbox('Add a new department to this supervisor', options=departments, label_visibility="collapsed"))
         if st.button('Add department'):
             add_deparment_to_supervisor(sup, dept_to_add)
 
         # Remove privileges
-        dept_to_remove = st.selectbox('Remove a department from this supervisor', options=list_of_access)
+        st.markdown("## 2. Remove a department from this supervisor')
+        dept_to_remove = st.selectbox('Remove a department from this supervisor', options=list_of_access, label_visibility="collapsed"))
         if st.button('Delete department'):
             remove_department_from_supervisor(sup, dept_to_remove)
 
         # Add unassigned person
-        person_to_add = st.selectbox('Add a new unassigned employee to this supervisor', options=unassigned)
+        st.markdown("## 3. Add a new unassigned employee to this supervisor')
+        person_to_add = st.selectbox('Add a new unassigned employee to this supervisor', options=unassigned, label_visibility="collapsed"))
         if st.button('Add unassigned employee'):
             add_unassigned(sup, person_to_add)
             
          # Remove unassigned person
-        person_to_remove = st.selectbox('Remove an unassigned employee from this supervisor', options=list_of_una)
+        st.markdown("## 4. Remove an unassigned employee from this supervisor')
+        person_to_remove = st.selectbox('Remove an unassigned employee from this supervisor', options=list_of_una, label_visibility="collapsed"))
         if st.button('Delete unassigned employee'):
             remove_unassigned(sup, person_to_remove)
             
