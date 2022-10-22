@@ -230,7 +230,8 @@ if check_password():
     # MAIN PROGRAM
 
     # Title
-    st.header('Privilege assigning program by LPM')
+    st.header('Privilege Assigner App')
+    st.caption("Written & designed by Luis Perez Morales")
     
     # Get list of departments from secrets
     departments = sorted(st.secrets['departments'])
@@ -289,7 +290,7 @@ if check_password():
             # Based on "tablita_people" above
             # Important to remove 'None' because when inserting new departments
             # the values of employees will move down the spreadsheet
-            list_of_una = sorted(list(holder.get(selection)[0][49:]))
+            list_of_una = sorted(list(holder.get(sup)[0][49:]))
             list_of_una = list(filter(None, list_of_una))
         except:
             list_of_una = []
