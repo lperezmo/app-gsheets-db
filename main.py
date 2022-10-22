@@ -241,17 +241,35 @@ if check_password():
     
     st.subheader("Current privileges")
     with st.expander("Click here"):
-        for i in holder.keys():
+        selection = st.selectbox('Select a supervisor:', options = sorted(holder.keys()))
+        if selection:
             try:
-                tablita = list(holder.get(i).iloc[:,0])
-                st.markdown(f"* {i} has access to {tablita}")
+                # Assigned departments
+                st.write('Assigned departments:')
+                tablita = list(holder.get(selection)[0][:49])
+                tablita = list(filter(None, tablita))
+                st.table(tablita)
+                # Filter empty stuff on departments
+
+
+                # Assigned people
+                st.write("Assigned people:")
+                tablita_people = list(holder.get(selection)[0][49:])
+                st.table(tablita_people)
             except:
-                pass
-        if st.button("Refresh all data & reload app"):
-            get_assigned_access.clear()
-            st.experimental_rerun()
-            st.success("App and data reloaded")
-            st.snow()
+                st.warning('No departments or people assigned to this supervisor.')
+
+    #         for i in holder.keys():
+    #             try:
+    #                 tablita = list(holder.get(i).iloc[:,0])
+    #                 st.markdown(f"* {i} has access to {tablita}")
+    #             except:
+    #                 pass
+    #         if st.button("Refresh all data & reload app"):
+    #             get_assigned_access.clear()
+    #             st.experimental_rerun()
+    #             st.success("App and data reloaded")
+    #             st.snow()
 
     # Manage current supervisors (select one at a time)
     st.subheader('Manage existing supervisors:')
