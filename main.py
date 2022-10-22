@@ -240,7 +240,7 @@ if check_password():
     current_supervisors, holder, unassigned = get_assigned_access()
     current_supervisors = sorted(current_supervisors)
     
-    st.subheader("Current privileges")
+    st.subheader(":scroll: Current privileges")
     with st.expander("Click here"):
         selection = st.selectbox('Select a supervisor:', options = sorted(holder.keys()))
         if selection:
@@ -260,21 +260,24 @@ if check_password():
                 st.table(tablita_people)
             except:
                 st.warning('No departments or people assigned to this supervisor.')
-
-    #         for i in holder.keys():
-    #             try:
-    #                 tablita = list(holder.get(i).iloc[:,0])
-    #                 st.markdown(f"* {i} has access to {tablita}")
-    #             except:
-    #                 pass
-    #         if st.button("Refresh all data & reload app"):
-    #             get_assigned_access.clear()
-    #             st.experimental_rerun()
-    #             st.success("App and data reloaded")
-    #             st.snow()
+            
+            # Option to list all access at once
+            if st.button('Just list all data at once in a list'):
+            for i in holder.keys():
+                try:
+                    tablita = list(holder.get(i).iloc[:,0])
+                    st.markdown(f"* {i} has access to {tablita}")
+                except:
+                    pass
+            # Optional button to reload app & re-run app
+            if st.button("Refresh all data & reload app"):
+                get_assigned_access.clear()
+                st.experimental_rerun()
+                st.success("App and data reloaded")
+                st.snow()
 
     # Manage current supervisors (select one at a time)
-    st.subheader('Manage existing supervisors:')
+    st.subheader(':pencil2: Manage existing supervisors:')
     with st.expander("Click here"):
         # Select supervisor and get its list of access
         sup =  st.selectbox('Choose supervisor to manage', options=current_supervisors)
@@ -325,7 +328,7 @@ if check_password():
                 
 
     # New supervisors
-    st.subheader("Add a new supervisor")
+    st.subheader(":new: Add a new supervisor")
     with st.expander("Click here"):
         new_sup = st.text_input('Input name of new supervisor')
         if st.button('Add new supervisor'):
