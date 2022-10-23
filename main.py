@@ -262,7 +262,7 @@ if check_password():
                 st.write('Assigned departments:')
                 tablita = list(holder.get(selection)[0][:40])
                 tablita = list(filter(None, tablita))
-                st.table(tablita)
+                tablita
                 # Filter empty stuff on departments
 
 
@@ -270,7 +270,7 @@ if check_password():
                 st.write("Assigned people:")
                 tablita_people = list(holder.get(selection)[0][40:])
                 tablita_people = list(filter(None, tablita_people))
-                st.table(tablita_people)
+                tablita_people
             except:
                 st.warning('No departments or people assigned to this supervisor.')
             
