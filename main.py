@@ -244,15 +244,6 @@ if check_password():
     current_supervisors, holder, unassigned = get_assigned_access()
     current_supervisors = sorted(current_supervisors)
     
-    # Experimental network graph
-    # G = nx.Graph(holder)
-    # nt = Network("500px", "500px",notebook=True,heading='')
-    # nt.from_nx(G) 
-    # path = '/tmp'
-    # nt.save_graph(f'{path}/pyvis_graph.html')
-    # HtmlFile = open(f'{path}/pyvis_graph.html','r',encoding='utf-8')
-    # components.html(HtmlFile.read())
-
     st.subheader(":scroll: Current privileges")
     with st.expander("Click here"):
         selection = st.selectbox('Select a supervisor:', options = sorted(holder.keys()))
@@ -347,3 +338,61 @@ if check_password():
         new_sup = st.text_input('Input name of new supervisor')
         if st.button('Add new supervisor'):
             create_supervisor(new_sup)
+
+            
+# For reading privileges:
+# @st.experimental_singleton
+# def get_assigned_access():
+#     # Create a connection object.
+#     credentials = service_account.Credentials.from_service_account_info(
+#         st.secrets["gcp_service_account"],
+#         scopes=[
+#                 "https://spreadsheets.google.com/feeds", 
+#                 "https://www.googleapis.com/auth/spreadsheets",
+#                 "https://www.googleapis.com/auth/drive.file", 
+#                 "https://www.googleapis.com/auth/drive"
+#                 ],
+#     )
+
+#     # Get sheet
+#     client = gspread.authorize(credentials)
+#     sheet = client.open('private-spreadsheet')
+
+#     # Get current supervisors & their access to depts and people
+#     _current_supervisors = sheet.worksheets()
+#     current_supervisors = []
+#     dept_access = dict()
+#     people_access = dict()
+
+#     for i in _current_supervisors:
+#         sup = str(i.title)
+#         if sup == 'Unassigned':
+#             # Get all unassigned
+#             unassigned = sheet.worksheet('Unassigned').col_values(1)
+#         else:
+#             # Get supervisors & access
+#             current_supervisors.append(sup)
+#             col_values = pd.DataFrame(sheet.worksheet(sup).col_values(1))
+#             try:
+#                 # Assigned departments
+#                 tablita = list(col_values[0][:40])
+#                 tablita = list(filter(None, tablita))
+#                 dept_access[sup] = tablita
+#             except:
+#                 dept_access[sup] = []
+#             try:
+#                 # Assigned people
+#                 tablita_people = list(col_values[0][40:])
+#                 tablita_people = list(filter(None, tablita_people))
+#                 people_access[sup] = tablita_people
+#                 # st.warning(f"No departments have been assigned to this supervisor")
+#             except:
+#                 people_access[sup] = []
+
+#     return current_supervisors, unassigned, dept_access, people_access
+
+
+# current_supervisors, unassigned, dept_access, people_access = get_assigned_access()
+
+# for i in dept_access.keys():
+#     st.write(f"{i} has access to {dept_access.get(i)}")
