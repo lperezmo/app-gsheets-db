@@ -245,13 +245,13 @@ if check_password():
     current_supervisors = sorted(current_supervisors)
     
     # Experimental network graph
-    G = nx.Graph(holder)
-    nt = Network("500px", "500px",notebook=True,heading='')
-    nt.from_nx(G) 
-    path = '/tmp'
-    nt.save_graph(f'{path}/pyvis_graph.html')
-    HtmlFile = open(f'{path}/pyvis_graph.html','r',encoding='utf-8')
-    components.html(HtmlFile.read())
+    # G = nx.Graph(holder)
+    # nt = Network("500px", "500px",notebook=True,heading='')
+    # nt.from_nx(G) 
+    # path = '/tmp'
+    # nt.save_graph(f'{path}/pyvis_graph.html')
+    # HtmlFile = open(f'{path}/pyvis_graph.html','r',encoding='utf-8')
+    # components.html(HtmlFile.read())
 
     st.subheader(":scroll: Current privileges")
     with st.expander("Click here"):
