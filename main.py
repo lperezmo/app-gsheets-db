@@ -244,10 +244,10 @@ if check_password():
     current_supervisors = sorted(current_supervisors)
     
     # Experimental network graph
-    G = nx.DiGraph(holder)
-    nt = Network("500px", "500px",notebook=True,heading='')
-    nt.from_nx(G) 
-    nt.show()
+    # G = nx.DiGraph(holder)
+    # nt = Network("500px", "500px",notebook=True,heading='')
+    # nt.from_nx(G) 
+    # nt.show()
 
     st.subheader(":scroll: Current privileges")
     with st.expander("Click here"):
