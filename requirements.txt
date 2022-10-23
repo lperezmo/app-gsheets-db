@@ -3,9 +3,9 @@
 gspread
 networkx
 pandas
-pyodbc
+# pyodbc
+pyvis
 streamlit
-streamlit-aggrid
+# streamlit-aggrid
 datetime
 plotly
-gsheetsdb
