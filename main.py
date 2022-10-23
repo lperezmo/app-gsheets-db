@@ -280,7 +280,7 @@ if check_password():
                     try:
                         tablita = list(filter(None, list(holder.get(i)[0][:40])))
                         tablita_people = list(filter(None, list(holder.get(i)[0][40:])))
-                        st.markdown(f"* {i} has access to following departments: \n {tablita} \n and following people {tablita_people}")
+                        st.markdown(f"* {i} has access to following departments {tablita} \n and the following people \n {tablita_people}")
                     except:
                         pass
             # Optional button to reload app & re-run app
