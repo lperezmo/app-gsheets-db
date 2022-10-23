@@ -8,6 +8,7 @@ import gspread
 import pandas as pd
 # from st_aggrid import AgGrid
 import networkx as nx 
+from pyvis.network import Network
 st.set_page_config(page_title='Privilege Assigner App by LPM', page_icon='https://raw.githubusercontent.com/pyinstaller/pyinstaller/develop/PyInstaller/bootloader/images/icon-windowed.ico', layout="wide")
 ##################################################################################################################
 # LOGIN INFO
@@ -41,7 +42,7 @@ def check_password():
 ##################################################################################################################
 if check_password():
     # HELPER FUNCTIONS
-    @st.experimental_memo(ttl=200)
+    @st.experimental_singleton
     def get_assigned_access():
         # Create a connection object.
         credentials = service_account.Credentials.from_service_account_info(
@@ -244,7 +245,9 @@ if check_password():
     
     # Experimental network graph
     G = nx.DiGraph(holder)
-    G.show()
+    nt = Network("500px", "500px",notebook=True,heading='')
+    nt.from_nx(G) 
+    nt.show()
 
     st.subheader(":scroll: Current privileges")
     with st.expander("Click here"):
