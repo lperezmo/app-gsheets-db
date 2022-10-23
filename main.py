@@ -9,6 +9,7 @@ import pandas as pd
 # from st_aggrid import AgGrid
 import networkx as nx 
 from pyvis.network import Network
+import streamlit.components.v1 as components
 st.set_page_config(page_title='Privilege Assigner App by LPM', page_icon='https://raw.githubusercontent.com/pyinstaller/pyinstaller/develop/PyInstaller/bootloader/images/icon-windowed.ico', layout="wide")
 ##################################################################################################################
 # LOGIN INFO
@@ -244,10 +245,13 @@ if check_password():
     current_supervisors = sorted(current_supervisors)
     
     # Experimental network graph
-    # G = nx.DiGraph(holder)
-    # nt = Network("500px", "500px",notebook=True,heading='')
-    # nt.from_nx(G) 
-    # nt.show()
+    G = nx.Graph(holder)
+    nt = Network("500px", "500px",notebook=True,heading='')
+    nt.from_nx(G) 
+    path = '/tmp'
+    nt.save_graph(f'{path}/pyvis_graph.html')
+    HtmlFile = open(f'{path}/pyvis_graph.html','r',encoding='utf-8')
+    components.html(HtmlFile.read())
 
     st.subheader(":scroll: Current privileges")
     with st.expander("Click here"):
