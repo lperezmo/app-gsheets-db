@@ -3,10 +3,11 @@
 # IMPORT PACKAGES
 import streamlit as st
 from google.oauth2 import service_account
-from gsheetsdb import connect
+# from gsheetsdb import connect
 import gspread
 import pandas as pd
-from st_aggrid import AgGrid
+# from st_aggrid import AgGrid
+import networkx as nx 
 st.set_page_config(page_title='Privilege Assigner App by LPM', page_icon='https://raw.githubusercontent.com/pyinstaller/pyinstaller/develop/PyInstaller/bootloader/images/icon-windowed.ico', layout="wide")
 ##################################################################################################################
 # LOGIN INFO
@@ -72,6 +73,7 @@ if check_password():
         holder = dict()
         for n in current_supervisors:
             _ = pd.DataFrame(sheet.worksheet(n).col_values(1))
+            _.dropna()
             holder[n] = _
 
         return current_supervisors, holder, unassigned
@@ -240,6 +242,10 @@ if check_password():
     current_supervisors, holder, unassigned = get_assigned_access()
     current_supervisors = sorted(current_supervisors)
     
+    # Experimental network graph
+    G = nx.DiGraph(holder)
+    G.show()
+
     st.subheader(":scroll: Current privileges")
     with st.expander("Click here"):
         selection = st.selectbox('Select a supervisor:', options = sorted(holder.keys()))
