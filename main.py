@@ -278,8 +278,9 @@ if check_password():
             if st.button('Just list all data at once in a list'):
                 for i in holder.keys():
                     try:
-                        tablita = list(holder.get(i).iloc[:,0])
-                        st.markdown(f"* {i} has access to {tablita}")
+                        tablita = list(filter(None, list(holder.get(i)[0][:40])))
+                        tablita_people = list(filter(None, list(holder.get(i)[0][40:])))
+                        st.markdown(f"* {i} has access to following departments: \n {tablita} \n and following people {tablita_people}")
                     except:
                         pass
             # Optional button to reload app & re-run app
