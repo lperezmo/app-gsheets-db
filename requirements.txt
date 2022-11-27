@@ -1,11 +1,12 @@
 # requirements.txt
 
-gspread
-networkx
-pandas
-# pyodbc
-pyvis
 streamlit
-# streamlit-aggrid
+pandas
+streamlit-aggrid
 datetime
 plotly
+# gspread
+# networkx
+# pyodbc
+# pyvis
+
