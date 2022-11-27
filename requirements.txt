@@ -5,8 +5,8 @@ pandas
 streamlit-aggrid
 datetime
 plotly
+pyodbc
 # gspread
 # networkx
-# pyodbc
 # pyvis
 
