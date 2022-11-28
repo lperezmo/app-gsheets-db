@@ -49,7 +49,7 @@ query = """SELECT TOP (1000) [EmployeeID]
     ,[PhotoPath]
     FROM [Northwind].[dbo].[Employees]"""
 query = query.replace('\n', ' ')
-df = df_from_query(query, con)
+df = df_from_query(query, conn)
 
 # Print results.
 st.dataframe(df)
