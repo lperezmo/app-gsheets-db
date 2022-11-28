@@ -21,37 +21,41 @@ conn = init_connection()
 # Perform query.
 # Uses st.experimental_memo to only rerun when the query changes or after 10 min.
 @st.experimental_memo(ttl=600)
-def df_from_query(query, con):
-    """Query SQL database and return pandas dataframe"""
-    with conn.cursor() as cur:
-        cur.execute(query)
-        cur.fetchall()
-        df = pd.read_sql(query, con)
-    return df
+def run_query(query):
+	"""
+	Perform query using experimental memo to rerun only when the query changes
+	or after 10 min.
+	"""
+	with conn.cursor() as cur:
+		cur.execute(query)
+		cur.fetchall()
+		df = pd.read_sql(query, conn)
+		print(f"Query executed successfully at {pd.Timestamp('now').__str__()}")
+		return df
 
+# Run query and display results.
 query = """SELECT TOP (1000) [EmployeeID]
-    ,[LastName]
-    ,[FirstName]
-    ,[Title]
-    ,[TitleOfCourtesy]
-    ,[BirthDate]
-    ,[HireDate]
-    ,[Address]
-    ,[City]
-    ,[Region]
-    ,[PostalCode]
-    ,[Country]
-    ,[HomePhone]
-    ,[Extension]
-    ,[Photo]
-    ,[Notes]
-    ,[ReportsTo]
-    ,[PhotoPath]
-    FROM [Northwind].[dbo].[Employees]"""
+	,[LastName]
+	,[FirstName]
+	,[Title]
+	,[TitleOfCourtesy]
+	,[BirthDate]
+	,[HireDate]
+	,[Address]
+	,[City]
+	,[Region]
+	,[PostalCode]
+	,[Country]
+	,[HomePhone]
+	,[Extension]
+	,[Photo]
+	,[Notes]
+	,[ReportsTo]
+	,[PhotoPath]
+	FROM [Northwind].[dbo].[Employees]"""
 query = query.replace('\n', ' ')
-df = df_from_query(query, conn)
+df= run_query(query)
 
-# Print results.
 st.dataframe(df)
  
 ###################################################################################
