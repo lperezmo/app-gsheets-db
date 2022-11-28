@@ -65,7 +65,8 @@ df= run_query(query)
 st.success(f"Successfully connected to remote Azure SQL database and retrieved the data displayed below on {pd.Timestamp('now').__str__()}")
 st.dataframe(df)
 st.write("Note: This app whitelists only the six stable outbound IP addresses used by the app's cloud services to allow selective access to this SQL database")
-
+st.write("Disclaimer: All data used on this app is fictional and was obtained from Northwind and pubs sample databases for Microsoft SQL Server available at "
+	 "https://github.com/microsoft/sql-server-samples/tree/master/samples/databases/northwind-pubs")
 ###################################################################################
 ###################################################################################
 # Here is original application, testing remote SQL server above
