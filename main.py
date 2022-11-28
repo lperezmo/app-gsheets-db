@@ -2,6 +2,11 @@ import streamlit as st
 import pyodbc
 import pandas as pd
 
+# Page configuration
+st.set_page_config(page_title='Remote SQL demonstration', 
+		   page_icon='https://raw.githubusercontent.com/pyinstaller/pyinstaller/develop/PyInstaller/bootloader/images/icon-windowed.ico', 
+		   layout="wide")
+
 # Initialize connection.
 # Uses st.experimental_singleton to only run once.
 @st.experimental_singleton
@@ -59,6 +64,7 @@ df= run_query(query)
 
 st.success(f"Successfully connected to remote Azure SQL database and retrieved the data displayed below on {pd.Timestamp('now').__str__()}")
 st.dataframe(df)
+st.write("Note: This app whitelists only the six stable outbound IP addresses used by the app's cloud services to allow selective access to this SQL database")
 
 ###################################################################################
 ###################################################################################
