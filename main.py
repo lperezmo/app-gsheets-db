@@ -21,10 +21,13 @@ conn = init_connection()
 # Perform query.
 # Uses st.experimental_memo to only rerun when the query changes or after 10 min.
 @st.experimental_memo(ttl=600)
-def run_query(query):
+def df_from_query(query, con):
+    """Query SQL database and return pandas dataframe"""
     with conn.cursor() as cur:
         cur.execute(query)
-        return cur.fetchall()
+        cur.fetchall()
+        df = pd.read_sql(query, con)
+    return df
 
 query = """SELECT TOP (1000) [EmployeeID]
     ,[LastName]
@@ -46,11 +49,10 @@ query = """SELECT TOP (1000) [EmployeeID]
     ,[PhotoPath]
     FROM [Northwind].[dbo].[Employees]"""
 query = query.replace('\n', ' ')
-rows = run_query(query)
+df = df_from_query(query, con)
 
 # Print results.
-for row in rows:
-    st.write(f"{row[0]} has a :{row[1]}:")
+st.dataframe(df)
  
 ###################################################################################
 ###################################################################################
