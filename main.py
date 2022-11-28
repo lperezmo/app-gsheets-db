@@ -57,8 +57,9 @@ query = """SELECT TOP (1000) [EmployeeID]
 query = query.replace('\n', ' ')
 df= run_query(query)
 
+st.success(f"Successfully connected to remote Azure SQL database and retrieved the data displayed below on {pd.Timestamp('now').__str__()}")
 st.dataframe(df)
- 
+
 ###################################################################################
 ###################################################################################
 # Here is original application, testing remote SQL server above
