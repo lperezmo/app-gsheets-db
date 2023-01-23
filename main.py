@@ -1,3 +1,4 @@
+# main.py
 ##################################################################################################################
 # IMPORT PACKAGES
 import streamlit as st
@@ -338,134 +339,60 @@ if check_password():
         if st.button('Add new supervisor'):
             create_supervisor(new_sup)
 
-##################################################################################
-##################################################################################
             
 # For reading privileges:
-@st.experimental_singleton
-def get_assigned_access():
-    # Create a connection object.
-    credentials = service_account.Credentials.from_service_account_info(
-        st.secrets["gcp_service_account"],
-        scopes=[
-                "https://spreadsheets.google.com/feeds", 
-                "https://www.googleapis.com/auth/spreadsheets",
-                "https://www.googleapis.com/auth/drive.file", 
-                "https://www.googleapis.com/auth/drive"
-                ],
-    )
-
-    # Get sheet
-    client = gspread.authorize(credentials)
-    sheet = client.open('private-spreadsheet')
-
-    # Get current supervisors & their access to depts and people
-    _current_supervisors = sheet.worksheets()
-    current_supervisors = []
-    dept_access = dict()
-    people_access = dict()
-
-    for i in _current_supervisors:
-        sup = str(i.title)
-        if sup == 'Unassigned':
-            # Get all unassigned
-            unassigned = sheet.worksheet('Unassigned').col_values(1)
-        else:
-            # Get supervisors & access
-            current_supervisors.append(sup)
-            col_values = pd.DataFrame(sheet.worksheet(sup).col_values(1))
-            try:
-                # Assigned departments
-                tablita = list(col_values[0][:40])
-                tablita = list(filter(None, tablita))
-                dept_access[sup] = tablita
-            except:
-                dept_access[sup] = []
-            try:
-                # Assigned people
-                tablita_people = list(col_values[0][40:])
-                tablita_people = list(filter(None, tablita_people))
-                people_access[sup] = tablita_people
-                # st.warning(f"No departments have been assigned to this supervisor")
-            except:
-                people_access[sup] = []
-
-    return current_supervisors, unassigned, dept_access, people_access
-
-
-current_supervisors, unassigned, dept_access, people_access = get_assigned_access()
-
-for i in dept_access.keys():
-    st.write(f"{i} has access to {dept_access.get(i)}")
-
-
-##################################################################################
-# import streamlit as st
-# import pyodbc
-# import pandas as pd
-
-# # Page configuration
-# st.set_page_config(page_title='Remote SQL demonstration', 
-# 		   page_icon='https://raw.githubusercontent.com/pyinstaller/pyinstaller/develop/PyInstaller/bootloader/images/icon-windowed.ico', 
-# 		   layout="wide")
-
-# # Initialize connection.
-# # Uses st.experimental_singleton to only run once.
 # @st.experimental_singleton
-# def init_connection():
-#     return pyodbc.connect(
-#         "DRIVER={ODBC Driver 17 for SQL Server};SERVER="
-#         + st.secrets["server"]
-#         + ";DATABASE="
-#         + st.secrets["database"]
-#         + ";UID="
-#         + st.secrets["username"]
-#         + ";PWD="
-#         + st.secrets["password"]
+# def get_assigned_access():
+#     # Create a connection object.
+#     credentials = service_account.Credentials.from_service_account_info(
+#         st.secrets["gcp_service_account"],
+#         scopes=[
+#                 "https://spreadsheets.google.com/feeds", 
+#                 "https://www.googleapis.com/auth/spreadsheets",
+#                 "https://www.googleapis.com/auth/drive.file", 
+#                 "https://www.googleapis.com/auth/drive"
+#                 ],
 #     )
 
-# conn = init_connection()
+#     # Get sheet
+#     client = gspread.authorize(credentials)
+#     sheet = client.open('private-spreadsheet')
 
-# # Perform query.
-# # Uses st.experimental_memo to only rerun when the query changes or after 10 min.
-# @st.experimental_memo(ttl=600)
-# def run_query(query):
-# 	"""
-# 	Perform query using experimental memo to rerun only when the query changes
-# 	or after 10 min.
-# 	"""
-# 	with conn.cursor() as cur:
-# 		cur.execute(query)
-# 		cur.fetchall()
-# 		df = pd.read_sql(query, conn)
-# 		print(f"Query executed successfully at {pd.Timestamp('now').__str__()}")
-# 		return df
+#     # Get current supervisors & their access to depts and people
+#     _current_supervisors = sheet.worksheets()
+#     current_supervisors = []
+#     dept_access = dict()
+#     people_access = dict()
 
-# # Run query and display results.
-# query = """SELECT TOP (1000) [EmployeeID]
-# 	,[LastName]
-# 	,[FirstName]
-# 	,[Title]
-# 	,[TitleOfCourtesy]
-# 	,[BirthDate]
-# 	,[HireDate]
-# 	,[Address]
-# 	,[City]
-# 	,[Region]
-# 	,[PostalCode]
-# 	,[Country]
-# 	,[HomePhone]
-# 	,[Extension]
-# 	,[Photo]
-# 	,[Notes]
-# 	,[ReportsTo]
-# 	,[PhotoPath]
-# 	FROM [Northwind].[dbo].[Employees]"""
-# query = query.replace('\n', ' ')
-# df= run_query(query)
+#     for i in _current_supervisors:
+#         sup = str(i.title)
+#         if sup == 'Unassigned':
+#             # Get all unassigned
+#             unassigned = sheet.worksheet('Unassigned').col_values(1)
+#         else:
+#             # Get supervisors & access
+#             current_supervisors.append(sup)
+#             col_values = pd.DataFrame(sheet.worksheet(sup).col_values(1))
+#             try:
+#                 # Assigned departments
+#                 tablita = list(col_values[0][:40])
+#                 tablita = list(filter(None, tablita))
+#                 dept_access[sup] = tablita
+#             except:
+#                 dept_access[sup] = []
+#             try:
+#                 # Assigned people
+#                 tablita_people = list(col_values[0][40:])
+#                 tablita_people = list(filter(None, tablita_people))
+#                 people_access[sup] = tablita_people
+#                 # st.warning(f"No departments have been assigned to this supervisor")
+#             except:
+#                 people_access[sup] = []
 
-# st.success(f"Successfully connected to remote Azure SQL database and retrieved the data displayed below on {pd.Timestamp('now').__str__()}")
-# st.dataframe(df)
-# st.write("Note: This app whitelists only the six stable outbound IP addresses used by the app's cloud services to allow selective access to this SQL database")
-# st.write("Disclaimer: All data used on this app is fictional and was obtained from Northwind and pubs sample databases for Microsoft SQL Server available at "
-# 	 "https://github.com/microsoft/sql-server-samples/tree/master/samples/databases/northwind-pubs")
+#     return current_supervisors, unassigned, dept_access, people_access
+
+
+# current_supervisors, unassigned, dept_access, people_access = get_assigned_access()
+
+# for i in dept_access.keys():
+#     st.write(f"{i} has access to {dept_access.get(i)}")
