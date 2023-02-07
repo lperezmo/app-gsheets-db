@@ -6,7 +6,7 @@ streamlit-aggrid
 datetime
 plotly
 pyodbc
-# gspread
-# networkx
-# pyvis
+gspread
+networkx
+pyvis
 
